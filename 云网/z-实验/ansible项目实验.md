@@ -957,6 +957,6 @@ zabbixServer_ip=192.168.10.180
            systemctl restart zabbix-agent.service
 ```
 #### web页面手动创建自动注册动作
-![](assets/ansible项目实验/file-20251121121151230.png)
+![](assets/ansible项目实验/file-20251225095258931.png)
 #### 结果显示
-![](assets/ansible项目实验/file-20251121121151229.png)
+![](assets/ansible项目实验/file-20251225095258928.png)
