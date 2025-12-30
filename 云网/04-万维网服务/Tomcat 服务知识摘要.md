@@ -1,7 +1,7 @@
 
 ---
 
-### **一. Tomcat 简介**
+### 一. Tomcat 简介
 
 *   **概念**: Tomcat 是由 Apache 软件基金会下属的 Jakarta 项目开发的**开源、轻量级的 Web 应用服务器**。它是一个 **Servlet 容器**，实现了对 Java Servlet、JavaServer Pages (JSP)、Java Expression Language (EL) 和 WebSocket 等 Java EE 规范的支持。
 *   **定位**: Tomcat 主要用于运行和托管**基于 Java 的动态网站**。它本身具备处理 HTTP 请求的能力，但性能和并发能力不如 Nginx。
@@ -9,7 +9,7 @@
     1.  **独立运行**: 中小型项目可以直接使用 Tomcat 作为 Web 服务器来发布 Java Web 应用（通常是 `.war` 包）。
     2.  **作为后端应用服务器**: 在生产环境中，Tomcat 通常被置于 Nginx 或 Apache HTTPD 之后。由前端的 Nginx/HTTPD 负责处理静态资源、SSL 加密和负载均衡，然后将动态请求（如 JSP、Servlet）**反向代理**给后端的 Tomcat 集群处理。这种 **动静分离** 的架构是主流。
 
-### **二. Tomcat 安装**
+### 二. Tomcat 安装
 
 Tomcat 的运行依赖于 Java 环境，因此部署前必须先安装 **JDK (Java Development Kit)**。
 
@@ -62,7 +62,7 @@ Tomcat 的运行依赖于 Java 环境，因此部署前必须先安装 **JDK (Ja
         *   启动: `./startup.sh`
         *   停止: `./shutdown.sh`
 
-### **三. Tomcat 管理**
+### 三. Tomcat 管理
 
 *   **核心配置文件**:
     *   **`server.xml` (最重要)**: Tomcat 的主配置文件，定义了整个服务器的结构。
@@ -98,7 +98,7 @@ Tomcat 的运行依赖于 Java 环境，因此部署前必须先安装 **JDK (Ja
         *   **JSSE方式 (默认)**: 使用 Java 的安全套接字扩展。需要生成或获取一个 Java 密钥库文件（`.jks`），然后在 `server.xml` 的 `<Connector>` 中配置密钥库路径和密码来启用 HTTPS。
         *   **APR方式**: 使用 Apache Portable Runtime，可以调用 OpenSSL 库来处理加密，性能更高。需要安装 `tomcat-native` 库。
 
-### **四. 综合项目实验**
+### 四. 综合项目实验
 
 这部分展示了 Tomcat 在真实生产环境中的典型应用。
 

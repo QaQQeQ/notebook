@@ -1,7 +1,7 @@
 
 ---
 
-### **一. HTTP 协议概述**
+### 一. HTTP 协议概述
 
 这是理解所有Web服务的基础。
 
@@ -28,7 +28,7 @@
     *   `500 Internal Server Error`: 服务器内部错误。
     *   `503 Service Unavailable`: 服务器过载或正在维护。
 
-### **二. HTTPD YUM 安装部署**
+### 二. HTTPD YUM 安装部署
 
 这部分讲述如何在 CentOS/RHEL 系统上快速部署 HTTPD 服务。
 
@@ -59,7 +59,7 @@
     4.  在 `/var/www/html` 目录下创建或放置网页文件（如 `index.html`）。
     5.  通过浏览器访问服务器的 IP 地址。
 
-### **三. HTTPD 基本管理**
+### 三. HTTPD 基本管理
 
 这部分涉及 `httpd.conf` 主配置文件的核心指令。
 
@@ -75,7 +75,7 @@
         *   `ErrorLog "logs/error_log"`: 错误日志路径。
         *   `CustomLog "logs/access_log" combined`: 访问日志路径和格式。
 
-### **四. HTTPD 虚拟目录**
+### 四. HTTPD 虚拟目录
 
 虚拟目录允许你将网站根目录之外的物理路径映射到一个URL路径上。
 
@@ -95,7 +95,7 @@
     ```
     配置后，访问 `http://服务器IP/data/` 实际看到的是 `/var/ftp/pub/` 目录下的内容。
 
-### **五. HTTPD 虚拟主机**
+### 五. HTTPD 虚拟主机
 
 虚拟主机技术让一台物理服务器可以托管多个独立的网站。
 
@@ -142,7 +142,7 @@
 	firewall-cmd --reload
 	```
 
-### **六. HTTPD 安全加密 (HTTPS/SSL)**
+### 六. HTTPD 安全加密 (HTTPS/SSL)
 
 为网站启用 HTTPS，实现数据传输的加密。
 
@@ -178,7 +178,7 @@ SSLCertificateFile conf.d/key/my-cert.pem
 
 ```
 
-### **七. HTTPD 工作模式 (MPM)**
+### 七. HTTPD 工作模式 (MPM)
 
 MPM (Multi-Processing Module) 决定了 Apache 如何处理客户端请求，直接影响其性能和资源消耗。
 
@@ -188,7 +188,7 @@ MPM (Multi-Processing Module) 决定了 Apache 如何处理客户端请求，直
     3.  **event**: `worker` 模式的变种。将一个线程作为**侦听器线程**来管理持久连接(Keep-Alive)，以实现其复用，进一步提升了高并发场景下的性能，特别适合处理大量长连接。
 *   **配置与切换**: 在 `/etc/httpd/conf.modules.d/00-mpm.conf` 文件中，通过注释和取消注释来选择加载哪个MPM模块。修改后需要重启httpd服务。
 
-### **八. HTTPD PHP 集成**
+### 八. HTTPD PHP 集成
 
 让 Apache 能够解析和执行 PHP 脚本。
 

@@ -1,6 +1,6 @@
 
 ---
-### **第一部分：Ansible 核心概念与基础**
+### 第一部分：Ansible 核心概念与基础
 
 
 1.  **Ansible简介**：
@@ -23,9 +23,9 @@
 
 ---
 
-### **第二部分：Ansible 核心模块详解**
+### 第二部分：Ansible 核心模块详解
 
-#### **1. `ping` 模块**
+#### 1. `ping` 模块
 
 *   **功能**：测试主控端与被控端之间的网络连通性和Python解释器是否可用。
 *   **特点**：最基础的模块，是验证环境配置是否正确的首选。返回`"pong"`表示成功。
@@ -36,7 +36,7 @@
     ansible webservers -m ping
     ```
 
-#### **2. `raw` 模块**
+#### 2. `raw` 模块
 
 *   **功能**：在远程主机上执行原生、底层的Shell命令。
 *   **特点**：极少数不依赖Python的模块之一。主要用于在尚未安装Python的裸机上安装Python环境。
@@ -47,7 +47,7 @@
     ansible 192.168.1.10 -m raw -a "yum install -y python3"
     ```
 
-#### **3. `command` 模块**
+#### 3. `command` 模块
 
 *   **功能**：在远程主机上执行简单的命令。
 *   **特点**：默认模块，如果不指定`-m`参数，就使用此模块。出于安全考虑，它不会通过shell执行，因此不支持管道符`|`、重定向`>`、`&`等shell特性和变量（如`$HOME`）。
@@ -60,7 +60,7 @@
     ansible dbservers -a "uname -r"
     ```
 
-#### **4. `shell` 模块**
+#### 4. `shell` 模块
 
 *   **功能**：在远程主机上通过`/bin/sh`执行命令，功能与直接登录shell操作一样。
 *   **特点**：支持所有shell特性，如管道符、重定向、变量等。是执行复杂命令的首选。
@@ -71,7 +71,7 @@
     ansible webservers -m shell -a "grep 'error' /var/log/*.log | wc -l"
     ```
 
-#### **5. `script` 模块**
+#### 5. `script` 模块
 
 *   **功能**：将主控端本地的一个脚本文件传输到远程主机并执行。
 *   **特点**：方便执行预先编写好的复杂脚本，无需先`copy`再`shell`执行。脚本执行后会在远程主机上被删除。
@@ -82,7 +82,7 @@
     ansible all -m script -a "/data/scripts/init.sh"
     ```
 
-#### **6. `file` 模块**
+#### 6. `file` 模块
 
 *   **功能**：管理文件、目录、软链接的属性。
 *   **特点**：功能强大，可以创建文件/目录 (`state=touch/directory`)、删除 (`state=absent`)、创建软链接 (`state=link`)、修改权限和属主/属组。完全幂等。
@@ -93,7 +93,7 @@
     ansible webservers -m file -a "path=/data/www state=directory owner=nginx group=nginx mode=0755"
     ```
 
-#### **7. `copy` 模块**
+#### 7. `copy` 模块
 
 *   **功能**：将主控端的文件或目录复制到远程主机。
 *   **特点**：最常用的文件传输模块。支持直接指定文件内容 (`content`参数)，支持复制后校验文件完整性。
@@ -104,7 +104,7 @@
     ansible webservers -m copy -a "src=/etc/ansible/files/nginx.conf dest=/etc/nginx/nginx.conf"
     ```
 
-#### **8. `fetch` 模块**
+#### 8. `fetch` 模块
 
 *   **功能**：从远程主机拉取文件到主控端。
 *   **特点**：`copy`模块的反向操作。拉取回来的文件会保存在以主机名命名的目录中，保持了原始的目录结构。
@@ -115,7 +115,7 @@
     ansible web01 -m fetch -a "src=/var/log/nginx/access.log dest=/tmp/logs/"
     ```
 
-#### **9. `user` / `group` 模块**
+#### 9. `user` / `group` 模块
 
 *   **功能**：管理远程主机上的用户和组。
 *   **特点**：可以创建、删除用户/组，管理用户附加组、家目录、UID/GID等。幂等。
@@ -129,7 +129,7 @@
     ansible all -m user -a "name=devuser state=absent"
     ```
 
-#### **10. `unarchive` 模块**
+#### 10. `unarchive` 模块
 
 *   **功能**：在远程主机上解压压缩包。
 *   **特点**：支持`.tar.gz`, `.zip`等多种格式。可以先从主控端复制压缩包再解压，也可以解压远程主机上已有的压缩包。
