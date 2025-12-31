@@ -72,4 +72,4 @@ Ceph 拥有精细的权限控制系统。
 
 ### 六. 集成与扩展 (NFS-Ganesha)
 
-*   资料中还提到了通过 **NFS-Ganesha** 服务将 CephFS 导出为 NFS 共享。这是一种兼容传统应用的方案，让不支持 CephFS 协议但支持 NFS 协议的客户端也能访问 Ceph 存储，进一步增强了 Ceph 的通用性。
+*   通过 **NFS-Ganesha** 服务将 CephFS 导出为 NFS 共享。这是一种兼容传统应用的方案，让不支持 CephFS 协议但支持 NFS 协议的客户端也能访问 Ceph 存储，进一步增强了 Ceph 的通用性。
