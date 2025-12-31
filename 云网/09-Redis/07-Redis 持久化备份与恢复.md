@@ -1,12 +1,12 @@
 
 ---
 ## Redis 持久化介绍
-Redis 是缓存数据库，默认情况下，服务器重启会导致数据丢失。为了解决这个问题，Redis 提供了两种持久化机制，可以将内存中的数据保存到磁盘，以便在重启后恢复。
+Redis 是缓存数据库，默认情况下，服务器重启会导致数据丢失。为了解决这个问题，Redis 提供了两种持久化机制，可以将内存中的数据保存到磁盘，以便在重启后恢复。  
 
 *   **RDB (Redis DataBase)**：快照持久化。在指定的时间间隔内，将内存中的数据生成一个二进制的快照文件（默认为 `dump.rdb`）。
 *   **AOF (Append Only File)**：日志持久化。将 Redis 执行的每一条写命令追加到文件（默认为 `appendonly.aof`）末尾。重启时，通过重新执行这些命令来恢复数据。
 
-在生产环境中，通常会同时开启 RDB 和 AOF，以兼顾数据安全性和恢复速度。
+在生产环境中，通常会同时开启 RDB 和 AOF，以兼顾数据安全性和恢复速度。  
 
 ### RDB 与 AOF 对比
 
@@ -25,7 +25,7 @@ Redis 是缓存数据库，默认情况下，服务器重启会导致数据丢�
 ### RDB 配置参数
 在 `redis.conf` 文件中进行配置。
 
-*   `save <seconds> <changes>`
+*   <mark>save</mark>  
     设置自动触发快照的条件。满足任意一个条件即会执行 `BGSAVE`。
     ```
     # 900秒（15分钟）内至少有1个key被修改
@@ -36,23 +36,23 @@ Redis 是缓存数据库，默认情况下，服务器重启会导致数据丢�
     save 60 10000
     ```
 
-*   `stop-writes-on-bgsave-error yes`  
+*   <mark>stop-writes-on-bgsave-error yes</mark>    
     当后台快照（bgsave）失败时，Redis 将禁止所有写操作，直到你解决问题为止。默认为 `yes`，能防止因持久化问题导致的数据不一致。
 
-*   `rdbcompression yes`  
+*   <mark>rdbcompression yes</mark>     
     进行镜像备份时，是否进行压缩，压缩需要消耗一定的 cpu 性能。
 
-*   `rdbchecksum yes`  
-    是否在 RDB 文件末尾追加 CRC64 校验和。默认为 `yes`，当 Redis 启动或加载 RDB 文件时，它会重新计算一次校验值，验证文件内容是否被篡改或损坏。   
-    开启校验（yes）：确保数据文件的完整性与可靠性。如果校验失败，Redis 会拒绝加载该 RDB 文件，并在日志中报错。  
+*   <mark>rdbchecksum yes</mark>     
+    是否在 RDB 文件末尾追加 CRC64 校验和。默认为 `yes`，当 Redis 启动或加载 RDB 文件时，它会重新计算一次校验值，验证文件内容是否被篡改或损坏。      
+    开启校验（yes）：确保数据文件的完整性与可靠性。如果校验失败，Redis 会拒绝加载该 RDB 文件，并在日志中报错。    
     关闭校验（no）：加载和保存 RDB 文件速度会稍微快一点（少一次 CRC64 计算），但丧失了检测文件损坏的能力。
 
 
-*   `dbfilename dump.rdb`  
+*   <mark>dbfilename dump.rdb</mark>    
     RDB 快照文件的名称。
 
-*   `dir /var/lib/redis`  
-    RDB 文件和 AOF 文件的存放目录。
+*   <mark>dir /var/lib/redis</mark>    
+    存放快照的目录
 
 ### RDB 重要命令
 *   `BGSAVE`  
@@ -231,13 +231,13 @@ Redis 是缓存数据库，默认情况下，服务器重启会导致数据丢�
     e. 启动 Redis 服务，它会自动加载持久化文件进行恢复。  
     f. 连接客户端，验证数据是否恢复成功。  
 
-3.  **强制使用 RDB 恢复**
+3.  **强制使用 RDB 恢复**  
     如果希望使用 RDB 文件进行恢复（例如，AOF 文件损坏），可以先临时在 `redis.conf` 中设置 `appendonly no`，然后启动 Redis。恢复完成后，再按正确步骤重新开启 AOF。
 
 ### 中途开启 AOF 的注意事项
 如果 Redis 实例已在仅使用 RDB 的模式下运行了一段时间，此时直接在配置文件中设置 `appendonly yes` 并重启，会导致数据丢失！因为 Redis 会优先加载一个新创建的、空的 AOF 文件。
 
-**正确步骤如下：**
+**正确步骤如下：**  
 1.  在 `redis.conf` 中设置 `appendonly yes`，或者通过 `CONFIG SET appendonly yes` 动态开启。**此时不要重启 Redis**。
 2.  立即执行 `BGREWRITEAOF` 命令。该命令会读取当前内存中的数据（这些数据是从 RDB 加载的），并生成一个包含所有数据的完整 AOF 文件。
 3.  等待重写完成后，AOF 持久化机制便已平滑启用。此后重启 Redis 即可安全地从 AOF 文件恢复数据。

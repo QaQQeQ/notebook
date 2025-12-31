@@ -23,7 +23,7 @@
   ```bash
   setenforce 0
   ```
-- **永久禁用 SELinux**:
+- **永久禁用 SELinux**:  
   修改配置文件 `/etc/selinux/config`，将 `SELINUX=enforcing` 改为 `SELINUX=disabled`。
   ```bash
   sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config

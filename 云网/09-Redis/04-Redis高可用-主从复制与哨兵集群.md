@@ -182,7 +182,7 @@ replicaof 192.168.226.134 6379
 
 ### 3.4 启动并验证主从复制
 
-1.  **在三个节点上分别启动 Redis 服务**
+1.  **在三个节点上分别启动 Redis 服务**  
     切换到 `redis` 用户执行：
     ```bash
     # Master 节点
@@ -193,7 +193,7 @@ replicaof 192.168.226.134 6379
     [redis@slave02 ~]$ redis-server /redis/install/conf/redis.conf
     ```
 
-2.  **验证主从状态**
+2.  **验证主从状态**  
     登录 Master 节点，执行 `info replication` 查看从节点连接状态。
     ```bash
     [redis@master ~]$ redis-cli -h 192.168.226.134 -p 6379 -a redhat
@@ -211,7 +211,7 @@ replicaof 192.168.226.134 6379
 
 在三个节点上分别配置 `sentinel.conf`，内容**完全一致**。
 
-**1. 准备 Sentinel 配置文件**
+**1. 准备 Sentinel 配置文件**  
 在每个节点上执行：
 ```bash
 # 清理并备份原始配置文件
@@ -252,13 +252,13 @@ redis-sentinel /redis/install/conf/sentinel.conf
 
 ### 3.6 高可用集群验证
 
-1.  **模拟 Master 宕机**
+1.  **模拟 Master 宕机**  
     在 Master 节点 (`192.168.226.134`) 上关闭 Redis 服务。
     ```bash
     redis-cli -h 192.168.226.134 -a redhat shutdown
     ```
 
-2.  **观察 Sentinel 日志**
+2.  **观察 Sentinel 日志**  
     在任一 Sentinel 节点的日志文件 (`/redis/install/log/sentinel.log`) 中，可以看到故障转移的全过程：
     *   `+sdown master mymaster ...` (主观下线)
     *   `+vote-for-leader ...` (开始选举 Leader)
@@ -266,5 +266,5 @@ redis-sentinel /redis/install/conf/sentinel.conf
     *   `+switch-master mymaster <old_ip> <new_ip>` (切换主节点)
     *   `+slave slave ... @ mymaster <new_ip>` (其他从节点跟随新主)
 
-3.  **验证新主**
+3.  **验证新主**  
     故障转移完成后，可以登录任一 Sentinel (`redis-cli -p 26379`)，执行 `sentinel get-master-addr-by-name mymaster` 来获取当前主节点的地址，会发现地址已经自动切换为某个原从节点的 IP。同时，登录新的主节点可以进行写操作。

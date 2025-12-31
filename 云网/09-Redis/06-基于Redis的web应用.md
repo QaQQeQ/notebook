@@ -216,10 +216,10 @@ https://pecl.php.net/package/redis
 
 ### **3.3 测试缓存逻辑**
 
-1.  **首次访问**
+1.  **首次访问**  
     在浏览器中访问 `http://<your-ip-address>/custom.php`。页面会显示 "数据来源于: MySQL"，并列出从数据库中查询到的三条记录。
 
-2.  **验证 Redis 缓存**
+2.  **验证 Redis 缓存**  
     此时登录 Redis 集群，查询对应的 key，会发现数据已被缓存。
     ```bash
     [redis@node1 ~]$ redis-cli -c -h 192.168.226.100 -p 7001 -a redhat
@@ -231,22 +231,22 @@ https://pecl.php.net/package/redis
     "henry"
     ```
 
-3.  **再次访问**
+3.  **再次访问**  
     刷新 `custom.php` 页面，此时会显示 "数据来源于: Redis"，表示数据已从缓存中快速读取。
 
 ### **3.4 缓存一致性问题演示**
 
-1.  **在 MySQL 中更新数据**
-    在 MySQL 中直接插入新数据，模拟后台业务变更。
+1.  **在 MySQL 中更新数据**  
+    在 MySQL 中直接插入新数据，模拟后台业务变更。  
     ```sql
     insert into abc(name) values('sissi'),('jerry');
     commit;
     ```
 
-2.  **观察 Web 页面**
-    再次刷新 `custom.php` 页面，会发现新插入的 `sissi` 和 `jerry` **并不会显示**。这是因为 PHP 程序仍然从 Redis 中读取到了旧的缓存数据。
+2.  **观察 Web 页面**  
+    再次刷新 `custom.php` 页面，会发现新插入的 `sissi` 和 `jerry` **并不会显示**。这是因为 PHP 程序仍然从 Redis 中读取到了旧的缓存数据。  
 
-3.  **缓存同步问题说明**
+3.  **缓存同步问题说明**  
     *   **问题**：当后端数据库（MySQL）的数据发生变化（更新、删除）时，Redis 中的缓存不会自动更新，导致数据不一致。
     *   **简单解决方案**：手动清空 Redis 缓存。
         *   `flushall`: 清空所有 Redis 数据库的 key。
