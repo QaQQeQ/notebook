@@ -133,7 +133,7 @@ DBPort=3306
 ```
 查看连接配置(示例)  
 `cat /etc/zabbix/zabbix_server.conf | grep -vE "^\s*(#|$)"`  
-![](assets/Zabbix监控平台整理/连接配置示例.png)   
+![](assets/Zabbix监控平台整理（需对02及之后的内容校验）/file-20260105154839346.png)   
 
 启动各个服务进程
 ```bash
@@ -163,7 +163,7 @@ fi
 6.  **Install**: 完成安装，下载配置文件并登录（默认用户 `Admin`，密码 `zabbix`）。  
 
 遇到的错误：    
-![](assets/Zabbix监控平台整理/错误.png)    
+![](assets/Zabbix监控平台整理（需对02及之后的内容校验）/file-20260105154839347.png)    
 解决方式：
 ```
 ## 在<Web 安装向导>执行完成之后，需编辑：<Nginx Web 前端>的</etc/zabbix/web/zabbix.conf.php>
