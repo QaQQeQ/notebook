@@ -1,4 +1,6 @@
 {
-	"nodes":[],
+	"nodes":[
+		{"id":"a390ca643ee1ad11","type":"file","file":"云网/15-路由交换技术基础/assets/第1篇 计算机网络基础/例题.png","x":640,"y":-260,"width":400,"height":268}
+	],
 	"edges":[]
 }
