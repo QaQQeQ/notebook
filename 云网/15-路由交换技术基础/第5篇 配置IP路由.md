@@ -88,7 +88,7 @@
         *   如果出接口是广播类型接口（如以太网、VLAN 接口），必须指定下一跳地址。
         *   如果目标地址是主机地址且在直连网络中，或出接口是点到点接口，可以只指定出接口。
 *   **静态默认路由**：
-    *   **配置**：`ip route-static 0.0.0.0 0.0.0.0 next-hop-address [ preference preference-value ]`。
+    *   **配置**：`ip route-static 0.0.0.0 0 next-hop-address [ preference preference-value ]`。
     *   **作用**：当没有其他更精确的路由匹配时，将数据包转发到指定下一跳。常用于末端网络（Stub Network）连接外部网络。
     *   **优点**：减少路由表项数量，节省路由表空间，加快路由匹配速度。
 *   **用静态路由实现路由备份和负载分担**：
@@ -158,6 +158,21 @@
         3.  **链路状态信息传递**：邻接路由器之间通过发布链路状态通告 (LSA) 交换链路状态信息，构建链路状态数据库 (LSDB)。LSA 描述路由器接口和链路的状态（带宽、开销等）。
             *   **可靠性**：OSPF 协议包具备超时重传和序列号机制，并支持 VLSM。
         4.  **计算路由**：每个路由器根据完整的 LSDB，独立运行 SPF 算法，计算出以自身为根的最短路径树，从而获得最优路由。
+        5.  **图示**：    
+		    **总**：    
+		    ![600](assets/第5篇%20配置IP路由/OSPF协议工作过程概述.png)  
+		    **寻找邻居**：    
+			![600](assets/第5篇%20配置IP路由/寻找邻居.png)  
+			**建立邻接关系**：    
+			![600](assets/第5篇%20配置IP路由/建立邻接关系.png)  
+			**DR和BDR选举**：    
+			![600](assets/第5篇%20配置IP路由/DR和BDR选举.png)   
+			**链路状态信息传递**：   
+			![600](assets/第5篇%20配置IP路由/链路状态信息传递.png)   
+			**传递信息**：    
+			![600](assets/第5篇%20配置IP路由/传递信息.png)   
+			**路由计算**：    
+			![600](assets/第5篇%20配置IP路由/路由计算.png)
     *   **OSPF 优势**：
         *   路由器对网络拓扑有相同认识，不会产生路由环路。
         *   网络结构变更时收敛速度快。
@@ -178,10 +193,9 @@
     *   **LSA 发布**：ABR 负责将本区域的 LSA 发布到骨干区域，并聚合路由信息，减少 LSA 数量。
 *   **配置 OSPF**：
     *   **OSPF 基本配置命令**：
-        1.  配置 Router ID：`router id router-id`。
-        2.  启动 OSPF 进程：`ospf [ process-id ]`。
-        3.  配置 OSPF 区域：`area area-id`。
-        4.  在指定接口上启动 OSPF：`network ip-address wildcard-mask`。
+        1.  设置 OSPF 进程并配置Router ID：`ospf [ process-id ] router id router-id`。
+        2.  配置 OSPF 区域：`area area-id`。
+        3.  在指定接口上启动 OSPF：`network ip-address wildcard-mask`。
     *   **OSPF 可选配置命令**：
         1.  配置 OSPF 接口优先级 (DR-Priority)：`ospf dr-priority priority`（0-255，默认 1）。
         2.  配置 OSPF 接口开销 (Cost)：`ospf cost value`。
